@@ -53,7 +53,7 @@ function App() {
     Swal.fire({
       title: "ร้องเรียนสำเร็จ!",
       text: "ทางเราจะรีบดำเนินการร้องเรียนของคุณ โดยเร็วที่สุด!",
-      icon: "success"
+      icon: "success" 
     });
   };
 
