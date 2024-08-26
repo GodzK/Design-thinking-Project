@@ -62,8 +62,8 @@ function App() {
       <AppContainer>
         <Navbar>
           <div>
-            <NavLink to="/">Home</NavLink>
-            <NavLink to="/complaints">View Complaints</NavLink>
+            <NavLink to="/">หน้าหลัก</NavLink>
+            <NavLink to="/complaints">การร้องเรียนทั้งหมด(officer)</NavLink>
           </div>
         </Navbar>
         <Content>

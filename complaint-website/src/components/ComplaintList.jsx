@@ -22,13 +22,14 @@ const ComplaintTitle = styled.h3`
 function ComplaintList({ complaints }) {
   return (
     <ListContainer>
-      <h2 style={{ color: '#2f6d31', fontSize: '1.8rem' }}>Submitted Complaints</h2>
+      <h2 style={{ color: '#2f6d31', fontSize: '1.8rem' }}>เรื่องร้องเรียนทั้งหมด</h2>
       {complaints.length === 0 ? (
         <p style={{ fontSize: '1.2rem' }}>ยังไม่มีข้อมูลการร้องเรียน</p>
       ) : (
         complaints.map((complaint, index) => (
           <ComplaintItem key={index}>
-            <ComplaintTitle>{complaint.name}</ComplaintTitle>
+            <ComplaintTitle>สถานที่📌: {complaint.place}</ComplaintTitle>
+            <ComplaintTitle>ผู้ร้องเรียน : {complaint.name}</ComplaintTitle>
             <p style={{ fontSize: '1.2rem' }}>{complaint.complaint}</p>
           </ComplaintItem>
         ))

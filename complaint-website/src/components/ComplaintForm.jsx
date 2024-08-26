@@ -45,18 +45,21 @@ const Button = styled.button`
 
 function ComplaintForm({ addComplaint }) {
   const [name, setName] = useState('');
+  const [place, setPlace] = useState('');
   const [complaint, setComplaint] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addComplaint({ name, complaint });
+    addComplaint({ name, place ,complaint });
     setName('');
+    setPlace('');
     setComplaint('');
+
   };
 
   return (
     <FormContainer>
-      <h2 style={{ color: '#2f6d31', fontSize: '1.8rem' }}>Submit a Complaint</h2>
+      <h2 style={{ color: '#2f6d31', fontSize: '1.8rem' }}>กรอกข้อมูลของท่าน</h2>
       <form onSubmit={handleSubmit}>
         <Input
           type="text"
@@ -64,13 +67,19 @@ function ComplaintForm({ addComplaint }) {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
+         <Input
+          type="text"
+          placeholder="สถานที่&บริเวณที่คุณต้องการร้องเรียน"
+          value={place}
+          onChange={(e) => setPlace(e.target.value)}
+        />
         <Textarea
           rows="4"
           placeholder="ใส่คำร้องเรียนของท่าน"
           value={complaint}
           onChange={(e) => setComplaint(e.target.value)}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit">ยืนยัน</Button>
       </form>
     </FormContainer>
   );
