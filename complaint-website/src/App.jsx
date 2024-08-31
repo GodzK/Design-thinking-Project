@@ -69,7 +69,7 @@ function App() {
         <Navbar>
           <div className='nav-div'>
             <div>
-               {username && <NavLink to="/">หน้าหลัก (Welcome, {username})</NavLink>}
+               {username && <NavLink to="/">หน้าหลัก (ยินดีต้อนรับ : {username})</NavLink>}
             <NavLink to="/complaints">การร้องเรียนทั้งหมด (officer)</NavLink>
             </div>
            <div>

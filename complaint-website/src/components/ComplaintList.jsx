@@ -132,8 +132,8 @@ function ComplaintList({ complaints }) {
               </ImageContainer>
             )}
             <div>
-              <ComplaintTitle>ผู้ร้องเรียน : {complaint.name}</ComplaintTitle>
-              <ComplaintTitle>สถานที่: {complaint.place}</ComplaintTitle>
+              <ComplaintTitle>👤 ผู้ร้องเรียน : {complaint.name}</ComplaintTitle>
+              <ComplaintTitle>📌 สถานที่: {complaint.place}</ComplaintTitle>
               <p style={{ fontSize: '1.2rem' }}>{complaint.complaint}</p>
               <div>
                 <LikeButton onClick={() => handleLikeToggle(index)}>
