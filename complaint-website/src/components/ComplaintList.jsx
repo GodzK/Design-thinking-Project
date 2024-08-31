@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import trash from "../assets/trash.jpg";
+import road from "../assets/road.jpg";
+import as from "../assets/9oykf2.jpg";
 
 const ListContainer = styled.div`
   width: 100%;
@@ -9,6 +12,7 @@ const ListContainer = styled.div`
 const ComplaintItem = styled.div`
   display: grid;
   grid-template-columns: 1fr auto;
+  grid-template-rows: auto 1fr;
   grid-gap: 10px;
   background-color: ${({ isTopComplaint }) => (isTopComplaint ? '#ffe6e6' : '#ffffff')};
   padding: 15px;
@@ -18,6 +22,7 @@ const ComplaintItem = styled.div`
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
   }
 `;
 
@@ -48,11 +53,20 @@ const LikesCount = styled.span`
 `;
 
 const ImagePreview = styled.img`
-  max-width: 40%;
+  max-width: 30%;
   max-height: 300px;
   margin-top: 10px;
   border-radius: 8px;
   object-fit: cover;
+`;
+
+const ImageContainer = styled.div`
+  grid-column: 1 / span 2;
+  grid-row: 1;
+  @media (max-width: 768px) {
+    grid-column: 1;
+    grid-row: 1;
+  }
 `;
 
 function ComplaintList({ complaints }) {
@@ -62,24 +76,27 @@ function ComplaintList({ complaints }) {
       name: "คุณสมชาย",
       complaint: "มีขยะทิ้งไม่เป็นที่ และส่งกลิ่นเหม็น",
       likes: 3000,
+      image: trash,
     },
     {
       place: "รอบๆสวนสาธารณะ",
       name: "คุณวิไล",
       complaint: "เสียงดังจากการก่อสร้างทั้งวันทั้งคืน",
       likes: 1728,
+      image: road,
     },
     {
-      place: "บ่อปลา",
+      place: "สถาที่ออกกำลังกาย",
       name: "คุณประวิทย์",
-      complaint: "น้ำไม่ไหลเป็นเวลา 3 วันแล้ว",
+      complaint: "เครื่องพัง รีบซ่อมด่วน",
       likes: 1236,
+      image: as,
     },
   ];
 
   const allComplaints = [...topComplaints, ...complaints];
 
-  const initialLikeCounts = allComplaints.map((complaint, index) => complaint.likes || 0);
+  const initialLikeCounts = allComplaints.map((complaint) => complaint.likes || 0);
   const [likeCounts, setLikeCounts] = useState(initialLikeCounts);
   const [liked, setLiked] = useState(new Array(allComplaints.length).fill(false));
 
@@ -100,7 +117,7 @@ function ComplaintList({ complaints }) {
 
   return (
     <ListContainer>
-      <h2 style={{ color: '#2f6d31', fontSize: '1.8rem' }}>เรื่องร้องเรียนทั้งหมด</h2>
+      <h2 style={{ color: '#2f6d31', fontSize: '1.8rem' }}>สีเเดง:Top Comment</h2>
       {allComplaints.length === 0 ? (
         <p style={{ fontSize: '1.2rem' }}>ยังไม่มีข้อมูลการร้องเรียน</p>
       ) : (
@@ -109,17 +126,21 @@ function ComplaintList({ complaints }) {
             key={index}
             isTopComplaint={index < 3}
           >
+            {complaint.image && (
+              <ImageContainer isTopComplaint={index < 3}>
+                <ImagePreview src={complaint.image} alt="Complaint Visual Evidence" />
+              </ImageContainer>
+            )}
             <div>
               <ComplaintTitle>ผู้ร้องเรียน : {complaint.name}</ComplaintTitle>
               <ComplaintTitle>สถานที่: {complaint.place}</ComplaintTitle>
               <p style={{ fontSize: '1.2rem' }}>{complaint.complaint}</p>
-              {complaint.image && <ImagePreview src={complaint.image} alt="Complaint Visual Evidence" />}
-            </div>
-            <div>
-              <LikeButton onClick={() => handleLikeToggle(index)}>
-                {liked[index] ? "Unlike" : "Like"}
-                <LikesCount>{likeCounts[index]}</LikesCount>
-              </LikeButton>
+              <div>
+                <LikeButton onClick={() => handleLikeToggle(index)}>
+                  {liked[index] ? "Unlike" : "Like"}
+                  <LikesCount>{likeCounts[index]}</LikesCount>
+                </LikeButton>
+              </div>
             </div>
           </ComplaintItem>
         ))
