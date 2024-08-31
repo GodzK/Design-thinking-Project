@@ -43,43 +43,107 @@ const Button = styled.button`
   }
 `;
 
+const RadioGroup = styled.div`
+  margin-bottom: 12px;
+`;
+
+const RadioLabel = styled.label`
+  font-size: 1.1rem;
+  margin-right: 20px;
+  cursor: pointer;
+`;
+
 function ComplaintForm({ addComplaint }) {
   const [name, setName] = useState('');
-  const [place, setPlace] = useState('');
   const [complaint, setComplaint] = useState('');
+  const [place, setPlace] = useState('');
+  const [isAnonymous, setIsAnonymous] = useState(false);
+  const [image, setImage] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addComplaint({ name, place ,complaint });
-    setName('');
-    setPlace('');
-    setComplaint('');
 
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const complaintData = {
+        name: isAnonymous ? 'Anonymous' : name,
+        complaint,
+        place, // ส่งข้อมูล place ไปด้วย
+        image: reader.result 
+      };
+
+      addComplaint(complaintData);
+    };
+
+    if (image) {
+      reader.readAsDataURL(image);
+    } else {
+      const complaintData = {
+        name: isAnonymous ? 'Anonymous' : name,
+        complaint,
+        place, // ส่งข้อมูล place ไปด้วย
+        image: null
+      };
+      addComplaint(complaintData);
+    }
+
+    setPlace('');
+    setName('');
+    setComplaint('');
+    setIsAnonymous(false);
+    setImage(null);
   };
 
   return (
     <FormContainer>
-      <h2 style={{ color: '#2f6d31', fontSize: '1.8rem' }}>กรอกข้อมูลของท่าน</h2>
+      <h2 style={{ color: '#2f6d31', fontSize: '1.8rem' }}>Submit a Complaint</h2>
       <form onSubmit={handleSubmit}>
+        <RadioGroup>
+          <RadioLabel>
+            <input
+              type="radio"
+              value="named"
+              checked={!isAnonymous}
+              onChange={() => setIsAnonymous(false)}
+            />
+            ใส่ชื่อผู้ร้องเรียน
+          </RadioLabel>
+          <RadioLabel>
+            <input
+              type="radio"
+              value="anonymous"
+              checked={isAnonymous}
+              onChange={() => setIsAnonymous(true)}
+            />
+            ไม่ประสงค์ใส่ชื่อ
+          </RadioLabel>
+        </RadioGroup>
+        {!isAnonymous && (
+          <Input
+            type="text"
+            placeholder="ชื่อของคุณ"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        )}
         <Input
           type="text"
-          placeholder="ใส่ชื่อเเละนามสกุลของท่าน"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-         <Input
-          type="text"
-          placeholder="สถานที่&บริเวณที่คุณต้องการร้องเรียน"
+          placeholder="บริเวณที่ต้องการร้องเรียน"
           value={place}
           onChange={(e) => setPlace(e.target.value)}
         />
         <Textarea
           rows="4"
-          placeholder="ใส่คำร้องเรียนของท่าน"
+          placeholder="คำร้องเรียนของคุณ"
           value={complaint}
           onChange={(e) => setComplaint(e.target.value)}
         />
-        <Button type="submit">ยืนยัน</Button>
+        <Input
+          type="file"
+          accept="image/*"
+          onChange={(e) => setImage(e.target.files[0])}
+        />
+        <Button type="submit">Submit</Button>
       </form>
     </FormContainer>
   );

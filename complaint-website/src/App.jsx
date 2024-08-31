@@ -5,7 +5,8 @@ import ComplaintsPage from './components/ComplaintPage'
 import styled from 'styled-components';
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
-
+import LoginPage from './components/LoginPage';
+import "./App.css"
 const Navbar = styled.nav`
   width: 100%;
   background-color: #2f6d31;
@@ -46,30 +47,46 @@ const Content = styled.main`
 `;
 
 function App() {
+  const [username, setUsername] = useState(null);
   const [complaints, setComplaints] = useState([]);
 
   const addComplaint = (complaint) => {
     setComplaints([...complaints, complaint]);
     Swal.fire({
       title: "ร้องเรียนสำเร็จ!",
-      text: "ทางเราจะรีบดำเนินการร้องเรียนของคุณ โดยเร็วที่สุด!",
-      icon: "success" 
+      text: "ทางเราจะรีบดำเนินการร้องเรียนของคุณโดยเร็วที่สุด!",
+      icon: "success"
     });
+  };
+
+  const handleLogin = (username) => {
+    setUsername(username);
   };
 
   return (
     <Router>
       <AppContainer>
         <Navbar>
-          <div>
-            <NavLink to="/">หน้าหลัก</NavLink>
-            <NavLink to="/complaints">การร้องเรียนทั้งหมด(officer)</NavLink>
+          <div className='nav-div'>
+            <div>
+               {username && <NavLink to="/">หน้าหลัก (Welcome, {username})</NavLink>}
+            <NavLink to="/complaints">การร้องเรียนทั้งหมด (officer)</NavLink>
+            </div>
+           <div>
+           </div>
           </div>
         </Navbar>
         <Content>
           <Routes>
-            <Route path="/" element={<HomePage addComplaint={addComplaint} />} />
-            <Route path="/complaints" element={<ComplaintsPage complaints={complaints} />} />
+            {!username ? (
+              <Route path="/" element={<LoginPage onLogin={handleLogin} />} />
+            ) : (
+              <>
+                <Route path="/" element={<HomePage username={username} addComplaint={addComplaint} />} />
+                <Route path="/complaints" element={<ComplaintsPage complaints={complaints} />} />
+              
+              </>
+            )}
           </Routes>
         </Content>
       </AppContainer>
