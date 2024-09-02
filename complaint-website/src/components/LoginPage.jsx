@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const LoginContainer = styled.div`
-  width: 100%;
+  width: 90%;
   max-width: 400px;
   margin: 100px auto;
   padding: 20px;
   background-color: #f9f9f9;
   border: 2px solid #2f6d31;
   border-radius: 8px;
+  
 `;
 
 const Input = styled.input`
